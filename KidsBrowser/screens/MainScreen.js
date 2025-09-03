@@ -3,12 +3,12 @@
 import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, Image, Text, SafeAreaView } from 'react-native';
 import WebsiteView from '../components/WebsiteView';
-import styles from './MainScreen.styles.js'; // <-- 1. Импортируем стили из нового файла
+import styles from './MainScreen.styles.js';
 
 const menuIcon = require('../assets/images/menu-icon.png');
 
 const MainScreen = ({ route, navigation }) => {
-  const [currentUrl, setCurrentUrl] = useState('https://chehmet.github.io/EminGames/');
+  const [currentUrl, setCurrentUrl] = useState('https://www.wikipedia.org/');
 
   useEffect(() => {
     if (route.params?.url) {
@@ -28,7 +28,5 @@ const MainScreen = ({ route, navigation }) => {
     </SafeAreaView>
   );
 };
-
-// 2. Весь блок const styles = StyleSheet.create(...) отсюда удален.
 
 export default MainScreen;

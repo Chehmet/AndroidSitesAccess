@@ -1,4 +1,4 @@
-// Вставьте этот обновленный код в KidsBrowser/screens/MainScreen.styles.js
+// Вставьте этот код в файл KidsBrowser/screens/MainScreen.styles.js
 
 import { StyleSheet, Dimensions } from 'react-native';
 
@@ -25,10 +25,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Nunito_700Bold',
     fontSize: isTablet ? 28 : 20,
     color: 'white',
-    // ИСПРАВЛЕНИЕ: React Native Web предпочитает одно свойство textShadow
-    // Но для кросс-платформенности лучше оставить так, как есть,
-    // так как это стандарт для мобильных платформ.
-    // Это предупреждение не критично и не ломает приложение.
     textShadowColor: 'rgba(0, 0, 0, 0.1)',
     textShadowOffset: { width: -1, height: 2 },
     textShadowRadius: 3,

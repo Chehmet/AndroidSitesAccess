@@ -22,7 +22,7 @@ const MainScreen = ({ route, navigation }) => {
         <TouchableOpacity onPress={() => navigation.openDrawer()}>
           <Image source={menuIcon} style={styles.menuIcon} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Kids Browser</Text>
+        <Text style={styles.headerTitle}>Websites for Kids</Text>
       </View>
       <WebsiteView url={currentUrl} />
     </SafeAreaView>

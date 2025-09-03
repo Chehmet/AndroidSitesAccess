@@ -37,9 +37,10 @@ export default function App() {
         screenOptions={{
           headerShown: false,
           drawerStyle: {
-            backgroundColor: '#FFFFFF', // Боковая панель теперь будет белой
-            width: 320, // Сделаем немного шире для планшета
+            backgroundColor: 'transparent', // Фон теперь прозрачный, так как цвет задан в компоненте
+            width: 'auto', // Ширина управляется динамически
           },
+          drawerType: 'front', // Чтобы панель была поверх контента
         }}
       >
         <Drawer.Screen name="Main" component={MainScreen} />

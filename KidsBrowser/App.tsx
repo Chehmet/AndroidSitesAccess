@@ -1,5 +1,3 @@
-// Вставьте этот код в файл KidsBrowser/App.js
-
 import 'react-native-gesture-handler';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
@@ -12,8 +10,8 @@ import { View, Text } from 'react-native';
 
 const Drawer = createDrawerNavigator();
 
-export default function App() {
-  let [fontsLoaded] = useFonts({
+const App: React.FC = () => {
+  const [fontsLoaded] = useFonts({
     Nunito_700Bold,
     Nunito_400Regular,
   });
@@ -34,7 +32,7 @@ export default function App() {
           headerShown: false,
           drawerStyle: {
             backgroundColor: 'transparent',
-            width: 320, // Ширина для планшета
+            width: 320, // Width for tablets
           },
           drawerType: 'front',
         }}
@@ -43,4 +41,6 @@ export default function App() {
       </Drawer.Navigator>
     </NavigationContainer>
   );
-}
+};
+
+export default App;

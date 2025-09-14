@@ -1,11 +1,12 @@
-// Вставьте этот код в файл KidsBrowser/components/WebsiteView.js
-
 import React from 'react';
 import { WebView } from 'react-native-webview';
-import styles from './WebsiteView.styles.js';
-import { Platform } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
-const WebsiteView = ({ url }) => {
+interface WebsiteViewProps {
+  url: string;
+}
+
+const WebsiteView: React.FC<WebsiteViewProps> = ({ url }) => {
   if (Platform.OS === 'web') {
     return (
       <iframe
@@ -18,5 +19,11 @@ const WebsiteView = ({ url }) => {
     return <WebView source={{ uri: url }} style={styles.webview} />;
   }
 };
+
+const styles = StyleSheet.create({
+  webview: {
+    flex: 1,
+  },
+});
 
 export default WebsiteView;

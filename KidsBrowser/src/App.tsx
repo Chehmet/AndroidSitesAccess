@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import MainScreen from './screens/MainScreen';
-import CustomSidebar, {CustomSidebarProps} from './components/CustomSidebar';
+import CustomSidebar, { CustomSidebarProps } from './components/CustomSidebar';
 
 import { useFonts, Nunito_700Bold, Nunito_400Regular } from '@expo-google-fonts/nunito';
 import { View, Text } from 'react-native';

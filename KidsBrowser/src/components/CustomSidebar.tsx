@@ -9,15 +9,10 @@ import {
   Alert,
   SafeAreaView,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { StyleSheet } from 'react-native';
 import { ICONS, AVAILABLE_ICONS } from './IconLibrary';
-
-interface Website {
-  id: string;
-  url: string;
-  icon: string;
-}
+import { useWebsites } from '../hooks/useWebsites';
 
 export interface CustomSidebarProps {
   navigation: {
@@ -27,71 +22,9 @@ export interface CustomSidebarProps {
 }
 
 const CustomSidebar: React.FC<CustomSidebarProps> = ({ navigation }) => {
-  const [websites, setWebsites] = useState<Website[]>([]);
+  const { websites, addWebsite, removeWebsite } = useWebsites();
   const [newUrl, setNewUrl] = useState<string>('');
   const [selectedIcon, setSelectedIcon] = useState<string>(AVAILABLE_ICONS[0]);
-
-  useEffect(() => {
-    loadWebsites();
-  }, []);
-
-  const loadWebsites = async () => {
-    try {
-      const savedWebsites = await AsyncStorage.getItem('websites');
-      if (savedWebsites === null) {
-        const initialWebsites: Website[] = [
-          { id: '1', url: 'https://rganeyev.github.io/kids-finance/', icon: 'finance' },
-          { id: '2', url: 'https://chehmet.github.io/EminGames/', icon: 'game' },
-        ];
-        setWebsites(initialWebsites);
-        await saveWebsites(initialWebsites);
-      } else {
-        setWebsites(JSON.parse(savedWebsites));
-      }
-    } catch (error) {
-      console.error('Error loading websites:', error);
-    }
-  };
-
-  const saveWebsites = async (newWebsites: Website[]) => {
-    try {
-      const jsonValue = JSON.stringify(newWebsites);
-      await AsyncStorage.setItem('websites', jsonValue);
-    } catch (error) {
-      console.error('Error saving websites:', error);
-    }
-  };
-
-  const handleAddWebsite = () => {
-    let urlToAdd = newUrl.trim().toLowerCase();
-    if (urlToAdd === '') {
-      Alert.alert('Oops!', 'Please enter a website address.');
-      return;
-    }
-    if (!urlToAdd.startsWith('http')) {
-      urlToAdd = 'https://' + urlToAdd;
-    }
-    const isFile = urlToAdd.split('/').pop()?.includes('.') || false;
-    if (!isFile && !urlToAdd.endsWith('/')) {
-      urlToAdd += '/';
-    }
-
-    const newWebsite: Website = {
-      id: Date.now().toString(),
-      url: urlToAdd,
-      icon: selectedIcon,
-    };
-    const updatedWebsites = [...websites, newWebsite];
-    setWebsites(updatedWebsites);
-    saveWebsites(updatedWebsites);
-    setNewUrl('');
-  };
-
-  const handleRemoveWebsite = (idToRemove: string) => {
-    const updatedWebsites = websites.filter((site) => site.id !== idToRemove);
-    setWebsites(updatedWebsites);
-    saveWebsites(updatedWebsites);
-  };
 
   const handleIconPress = (url: string) => {
     navigation.navigate('Main', { url });
@@ -113,7 +46,7 @@ const CustomSidebar: React.FC<CustomSidebarProps> = ({ navigation }) => {
                 {item.url.replace(/^https?:\/\//, '').replace(/\/$/, '')}
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleRemoveWebsite(item.id)}>
+            <TouchableOpacity onPress={() => removeWebsite(item.id)}>
               <Text style={styles.removeButton}>❌</Text>
             </TouchableOpacity>
           </View>
@@ -137,16 +70,13 @@ const CustomSidebar: React.FC<CustomSidebarProps> = ({ navigation }) => {
             <TouchableOpacity key={iconName} onPress={() => setSelectedIcon(iconName)}>
               <Image
                 source={ICONS[iconName]}
-                style={[
-                  styles.selectorIcon,
-                  selectedIcon === iconName && styles.selectedIcon,
-                ]}
+                style={[styles.selectorIcon, selectedIcon === iconName && styles.selectedIcon]}
               />
             </TouchableOpacity>
           ))}
         </View>
 
-        <TouchableOpacity style={styles.addButton} onPress={handleAddWebsite}>
+        <TouchableOpacity style={styles.addButton} onPress={() => addWebsite(newUrl, selectedIcon)}>
           <Text style={styles.addButtonText}>Add ✨</Text>
         </TouchableOpacity>
       </View>

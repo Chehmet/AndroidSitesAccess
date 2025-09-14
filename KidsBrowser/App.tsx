@@ -27,6 +27,7 @@ const App: React.FC = () => {
   return (
     <NavigationContainer>
       <Drawer.Navigator
+        id={undefined} // not sure why this is needed, but it removes a TS warning
         drawerContent={(props) => <CustomSidebar {...props} />}
         screenOptions={{
           headerShown: false,

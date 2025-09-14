@@ -6,7 +6,7 @@ import { StyleSheet, Dimensions } from 'react-native';
 const { width } = Dimensions.get('window');
 const isTablet = width >= 768;
 
-const menuIcon = require('../assets/images/menu-icon.png');
+const menuIcon = require('../../assets/images/menu-icon.png');
 
 interface MainScreenProps {
   route: {

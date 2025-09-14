@@ -1,4 +1,27 @@
 {
-  "compilerOptions": {},
+  "compilerOptions": {
+    "target": "esnext",                          // Specify ECMAScript target version
+    "module": "node16",                          // Specify module code generation
+    "strict": true,                              // Enable all strict type-checking options
+    "jsx": "react",                              // Support JSX in React
+    "moduleResolution": "node16",               // Use Node.js module resolution with Node.js 16+ features
+    "esModuleInterop": true,                    // Enable compatibility with CommonJS modules
+    "skipLibCheck": true,                       // Skip type checking of declaration files
+    "forceConsistentCasingInFileNames": true,   // Ensure consistent file name casing
+    "allowSyntheticDefaultImports": true,       // Allow default imports from modules without default exports
+    "resolveJsonModule": true,                  // Allow importing JSON files
+    "isolatedModules": true,                    // Ensure each file can be transpiled independently
+    "noEmit": true                              // Do not emit compiled files
+  },
+  "include": [
+    "src/**/*",                                 // Include all TypeScript files in the src folder
+    "src/screens/**/*",
+    "src/components/**/*"
+, "index.js"  ],
+  "exclude": [
+    "node_modules",                             // Exclude node_modules folder
+    "build",                                    // Exclude build folder
+    "dist"                                      // Exclude dist folder
+  ],
   "extends": "expo/tsconfig.base"
 }

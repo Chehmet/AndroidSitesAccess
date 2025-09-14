@@ -2,8 +2,9 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+
 import MainScreen from './screens/MainScreen';
-import CustomSidebar from './components/CustomSidebar';
+import CustomSidebar, {CustomSidebarProps} from './components/CustomSidebar';
 
 import { useFonts, Nunito_700Bold, Nunito_400Regular } from '@expo-google-fonts/nunito';
 import { View, Text } from 'react-native';
@@ -28,7 +29,7 @@ const App: React.FC = () => {
     <NavigationContainer>
       <Drawer.Navigator
         id={undefined} // not sure why this is needed, but it removes a TS warning
-        drawerContent={(props) => <CustomSidebar {...props} />}
+        drawerContent={(props: CustomSidebarProps) => <CustomSidebar {...props} />}
         screenOptions={{
           headerShown: false,
           drawerStyle: {

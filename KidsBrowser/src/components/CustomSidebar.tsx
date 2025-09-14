@@ -19,7 +19,7 @@ interface Website {
   icon: string;
 }
 
-interface CustomSidebarProps {
+export interface CustomSidebarProps {
   navigation: {
     navigate: (screen: string, params?: { [key: string]: any }) => void;
     closeDrawer: () => void;

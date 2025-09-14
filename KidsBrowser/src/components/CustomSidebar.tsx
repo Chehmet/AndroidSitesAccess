@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -6,7 +6,6 @@ import {
   FlatList,
   TextInput,
   Image,
-  Alert,
   SafeAreaView,
 } from 'react-native';
 
@@ -16,7 +15,7 @@ import { useWebsites } from '../hooks/useWebsites';
 
 export interface CustomSidebarProps {
   navigation: {
-    navigate: (screen: string, params?: { [key: string]: any }) => void;
+    navigate: (screen: string, params?: Record<string, unknown>) => void;
     closeDrawer: () => void;
   };
 }

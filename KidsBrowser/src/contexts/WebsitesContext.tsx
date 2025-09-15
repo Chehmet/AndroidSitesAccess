@@ -1,13 +1,28 @@
-import { useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Website {
-  id: string;
   url: string;
   icon: string;
 }
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+interface WebsitesContextProps {
+  websites: Website[];
+  addWebsite: (newUrl: string, selectedIcon: string) => void;
+  removeWebsite: (idToRemove: string) => void;
+}
+
+const initialWebsites: Website[] = [
+  { url: 'https://rganeyev.github.io/kids-finance/', icon: 'finance' },
+  { url: 'https://chehmet.github.io/EminGames/', icon: 'game' },
+];
+
+const WebsitesContext = createContext<WebsitesContextProps>({
+  websites: initialWebsites,
+  addWebsite: () => {},
+  removeWebsite: () => {},
+});
 
 const saveWebsites = async (newWebsites: Website[]) => {
   try {
@@ -18,16 +33,13 @@ const saveWebsites = async (newWebsites: Website[]) => {
   }
 };
 
-export const useWebsites = () => {
-  const [websites, setWebsites] = useState<Website[]>([]);
+export const WebsitesProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [websites, setWebsites] = useState<Website[]>(initialWebsites);
+
   const loadWebsites = async () => {
     try {
       const savedWebsites = await AsyncStorage.getItem('websites');
       if (savedWebsites === null) {
-        const initialWebsites: Website[] = [
-          { id: '1', url: 'https://rganeyev.github.io/kids-finance/', icon: 'finance' },
-          { id: '2', url: 'https://chehmet.github.io/EminGames/', icon: 'game' },
-        ];
         setWebsites(initialWebsites);
         await saveWebsites(initialWebsites);
       } else {
@@ -57,7 +69,6 @@ export const useWebsites = () => {
     }
 
     const newWebsite: Website = {
-      id: Date.now().toString(),
       url: urlToAdd,
       icon: selectedIcon,
     };
@@ -66,11 +77,23 @@ export const useWebsites = () => {
     saveWebsites(updatedWebsites);
   };
 
-  const removeWebsite = (idToRemove: string) => {
-    const updatedWebsites = websites.filter((site) => site.id !== idToRemove);
+  const removeWebsite = (url: string) => {
+    const updatedWebsites = websites.filter((site) => site.url !== url);
     setWebsites(updatedWebsites);
     saveWebsites(updatedWebsites);
   };
 
-  return { websites, addWebsite, removeWebsite };
+  return (
+    <WebsitesContext.Provider value={{ websites, addWebsite, removeWebsite }}>
+      {children}
+    </WebsitesContext.Provider>
+  );
+};
+
+export const useWebsites = (): WebsitesContextProps => {
+  const context = useContext(WebsitesContext);
+  if (!context) {
+    throw new Error('useWebsites must be used within a WebsitesProvider');
+  }
+  return context;
 };

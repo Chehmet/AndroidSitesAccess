@@ -8,6 +8,7 @@ import CustomSidebar, { CustomSidebarProps } from './components/CustomSidebar';
 
 import { useFonts, Nunito_700Bold, Nunito_400Regular } from '@expo-google-fonts/nunito';
 import { View, Text } from 'react-native';
+import { WebsitesProvider } from './contexts/WebsitesContext';
 
 const Drawer = createDrawerNavigator();
 
@@ -26,22 +27,24 @@ const App: React.FC = () => {
   }
 
   return (
-    <NavigationContainer>
-      <Drawer.Navigator
-        id={undefined} // not sure why this is needed, but it removes a TS warning
-        drawerContent={(props: CustomSidebarProps) => <CustomSidebar {...props} />}
-        screenOptions={{
-          headerShown: false,
-          drawerStyle: {
-            backgroundColor: 'transparent',
-            width: 320, // Width for tablets
-          },
-          drawerType: 'front',
-        }}
-      >
-        <Drawer.Screen name="Main" component={MainScreen} />
-      </Drawer.Navigator>
-    </NavigationContainer>
+    <WebsitesProvider>
+      <NavigationContainer>
+        <Drawer.Navigator
+          id={undefined} // not sure why this is needed, but it removes a TS warning
+          drawerContent={(props: CustomSidebarProps) => <CustomSidebar {...props} />}
+          screenOptions={{
+            headerShown: false,
+            drawerStyle: {
+              backgroundColor: 'transparent',
+              width: 320, // Width for tablets
+            },
+            drawerType: 'front',
+          }}
+        >
+          <Drawer.Screen name="Main" component={MainScreen} />
+        </Drawer.Navigator>
+      </NavigationContainer>
+    </WebsitesProvider>
   );
 };
 

@@ -11,7 +11,7 @@ import {
 
 import { StyleSheet } from 'react-native';
 import { ICONS, AVAILABLE_ICONS } from './IconLibrary';
-import { useWebsites } from '../hooks/useWebsites';
+import { useWebsites } from '../contexts/WebsitesContext';
 
 export interface CustomSidebarProps {
   navigation: {
@@ -36,7 +36,7 @@ const CustomSidebar: React.FC<CustomSidebarProps> = ({ navigation }) => {
 
       <FlatList
         data={websites}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.url}
         renderItem={({ item }) => (
           <View style={styles.websiteItem}>
             <TouchableOpacity onPress={() => handleIconPress(item.url)} style={styles.iconButton}>
@@ -45,7 +45,7 @@ const CustomSidebar: React.FC<CustomSidebarProps> = ({ navigation }) => {
                 {item.url.replace(/^https?:\/\//, '').replace(/\/$/, '')}
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => removeWebsite(item.id)}>
+            <TouchableOpacity onPress={() => removeWebsite(item.url)}>
               <Text style={styles.removeButton}>❌</Text>
             </TouchableOpacity>
           </View>
